@@ -1,3 +1,3 @@
 [submodule "yolov5_face"]
-	path = yolov5-face
+	path = yolov5_face
 	url = https://github.com/Onlyorlov/yolov5_face.git
