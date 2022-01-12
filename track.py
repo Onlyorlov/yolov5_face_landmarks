@@ -86,7 +86,7 @@ def show_results(img, xywh, conf, landmarks, class_num):
 def detect(opt):
     #проверить аргументы
     out, source, yolo_model, save_vid, imgsz, project, name, coef, exist_ok = \
-        opt.output, opt.source, opt.yolo_model, opt.save_vid, \
+        opt.output, opt.yolo_model, opt.save_vid, \
         opt.imgsz, opt.project, opt.name, opt.coef, opt.exist_ok
 
     # Initialize
@@ -192,9 +192,8 @@ def detect(opt):
     print(f'Speed: %.1fms pre-process, %.1fms inference, %.1fms NMS \
         per image at shape {(1, 3, *imgsz)}' % t)
 
-    print('Results saved to %s' % save_dir)
-    if platform == 'darwin':  # MacOS
-        os.system('open ' + save_path)
+    if save_vid:
+        print('Results saved to %s' % save_dir)
 
 
 if __name__ == '__main__':
