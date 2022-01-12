@@ -104,8 +104,8 @@ def detect(opt):
     vid_path, vid_writer = None, None
 
     # Dataloader
-    # dataset = LoadMaskedImages(source, img_size=imgsz, coef=coef)
-    dataset = LoadImages(source, img_size=imgsz)
+    dataset = LoadMaskedImages(source, img_size=imgsz, coef=coef)
+    # dataset = LoadImages(source, img_size=imgsz)
     bs = 1  # batch_size
     vid_path, vid_writer = [None] * bs, [None] * bs
 
@@ -114,8 +114,8 @@ def detect(opt):
     #         1, 3, *imgsz).to(device).type_as(next(model.model.parameters())))  # warmup
     dt, seen = [0.0, 0.0, 0.0], 0
 
-    # for frame_idx, (path, img, im0s, vid_cap, s) in enumerate(dataset):
-    for frame_idx, (path, img, im0s, vid_cap) in enumerate(dataset):
+    for frame_idx, (path, img, im0s, vid_cap, s) in enumerate(dataset):
+    # for frame_idx, (path, img, im0s, vid_cap) in enumerate(dataset):
         t1 = time_sync()
         img = torch.from_numpy(img).to(device)
         img = img.float()
@@ -137,7 +137,8 @@ def detect(opt):
         # Process detections
         for i, det in enumerate(pred):  # detections per image
 
-            p, im0 = path, im0s
+            p, im0 = path, im0s.copy()
+            print(im0s.shape)
             p = Path(p)  # to Path
             save_path = str(save_dir / p.name)  # im.jpg, vid.mp4, ...
             # s += '%gx%g ' % img.shape[2:]  # print string
