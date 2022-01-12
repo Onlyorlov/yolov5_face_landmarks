@@ -21,11 +21,11 @@ import json
 import platform
 import argparse
 
-from yolov5-face.utils.general import check_img_size, non_max_suppression_face, scale_coords, check_imshow, xyxy2xywh, increment_path
-from yolov5-face.utils.plots import Annotator, colors
-from yolov5-face.utils.torch_utils import select_device, time_sync
-from yolov5-face.utils.datasets import LoadImages, LoadStreams
-from yolov5-face.models.experimental import attempt_load
+from yolov5_face.utils.general import check_img_size, non_max_suppression_face, scale_coords, check_imshow, xyxy2xywh, increment_path
+from yolov5_face.utils.plots import Annotator, colors
+from yolov5_face.utils.torch_utils import select_device, time_sync
+from yolov5_face.utils.datasets import LoadMaskedImages, LoadStreams
+from yolov5_face.models.experimental import attempt_load
 
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0]  # yolov5 deepsort root directory
@@ -113,7 +113,7 @@ def detect(opt):
         dataset = LoadStreams(source, img_size=imgsz)
         bs = len(dataset)  # batch_size
     else:
-        dataset = LoadImages(source, img_size=imgsz, coef=coef)
+        dataset = LoadMaskedImages(source, img_size=imgsz, coef=coef)
         bs = 1  # batch_size
     vid_path, vid_writer = [None] * bs, [None] * bs
     # Get names and colors
