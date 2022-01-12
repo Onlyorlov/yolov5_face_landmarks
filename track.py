@@ -180,10 +180,10 @@ def detect(opt):
                         vid_writer = cv2.VideoWriter(
                             save_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (w, h))
                     vid_writer.write(im0)
-
+            print(f'{s}Done. YOLO:({t3 - t2:.3f}s)')
             # New video -- сомнения
             if vid_path != save_path:  # if new video
-                print(f'{s}Done. YOLO:({t3 - t2:.3f}s)')
+                # print(f'{s}Done. YOLO:({t3 - t2:.3f}s)')
                 vid_path = save_path
 
 
