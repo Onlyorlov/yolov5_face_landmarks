@@ -21,10 +21,10 @@ import json
 import platform
 import argparse
 
-from yolov5_face.utils.general import check_img_size, non_max_suppression_face, scale_coords, check_imshow, xyxy2xywh, increment_path
+from yolov5_face.utils.general import check_img_size, non_max_suppression_face, scale_coords, xyxy2xywh, increment_path
 # from yolov5_face.utils.plots import Annotator, colors
 from yolov5_face.utils.torch_utils import select_device, time_sync
-from yolov5_face.utils.datasets import LoadMaskedImages, LoadStreams
+from yolov5_face.utils.datasets import LoadMaskedImages
 from yolov5_face.models.experimental import attempt_load
 
 FILE = Path(__file__).resolve()
@@ -131,7 +131,7 @@ def detect(opt):
         dt[1] += t3 - t2
 
         # Apply NMS
-        pred = non_max_suppression_face(pred, opt.conf_thres, opt.iou_thres, opt.classes)
+        pred = non_max_suppression_face(pred, opt.conf_thres, opt.iou_thres)
         dt[2] += time_sync() - t3
 
         # Process detections
