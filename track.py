@@ -25,7 +25,7 @@ from yolov5_face.utils.general import check_img_size, non_max_suppression_face, 
 # from yolov5_face.utils.plots import Annotator, colors
 from yolov5_face.utils.torch_utils import select_device
 from yolov5_face.utils.torch_utils import time_synchronized as time_sync
-from yolov5_face.utils.datasets import LoadMaskedImages
+from yolov5_face.utils.datasets import LoadMaskedImages, LoadImages
 from yolov5_face.models.experimental import attempt_load
 
 FILE = Path(__file__).resolve()
@@ -104,7 +104,8 @@ def detect(opt):
     vid_path, vid_writer = None, None
 
     # Dataloader
-    dataset = LoadMaskedImages(source, img_size=imgsz, coef=coef)
+    # dataset = LoadMaskedImages(source, img_size=imgsz, coef=coef)
+    dataset = LoadImages(source, img_size=imgsz)
     bs = 1  # batch_size
     vid_path, vid_writer = [None] * bs, [None] * bs
 
