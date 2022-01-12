@@ -1,16 +1,6 @@
 # limit the number of cpus used by high performance libraries
-import os
-os.environ["OMP_NUM_THREADS"] = "1"
-os.environ["OPENBLAS_NUM_THREADS"] = "1"
-os.environ["MKL_NUM_THREADS"] = "1"
-os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
-os.environ["NUMEXPR_NUM_THREADS"] = "1"
-
-import sys
-sys.path.insert(0, './yolov5')
 
 import argparse
-import os
 import platform
 import json
 import pickle
@@ -21,13 +11,22 @@ from pathlib import Path
 import cv2
 import torch
 import torch.backends.cudnn as cudnn
-
-from yolov5-face.models.common import DetectMultiBackend
+from yolov5-face.models.experimental import attempt_load
 from yolov5-face.utils.datasets import LoadImages, LoadStreams
-from yolov5-face.utils.general import (LOGGER, check_img_size, non_max_suppression, scale_coords, 
-                                  check_imshow, xyxy2xywh, increment_path)
 from yolov5-face.utils.torch_utils import select_device, time_sync
 from yolov5-face.utils.plots import Annotator, colors
+from yolov5-face.utils.general import (LOGGER, check_img_size, non_max_suppression, scale_coords,
+                                       check_imshow, xyxy2xywh, increment_path)
+import sys
+import os
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
+os.environ["NUMEXPR_NUM_THREADS"] = "1"
+
+sys.path.insert(0, './yolov5-face')
+
 
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0]  # yolov5 deepsort root directory
@@ -53,7 +52,7 @@ def detect(opt):
 
     # Load model
     device = select_device(device)
-    model = DetectMultiBackend(yolo_model, device=device, dnn=opt.dnn)
+    model = attempt_load(yolo_model, map_location=device)
     stride, names, pt, jit, _ = model.stride, model.names, model.pt, model.jit, model.onnx
     imgsz = check_img_size(imgsz, s=stride)  # check image size
 
@@ -71,7 +70,7 @@ def detect(opt):
                               stride=stride, mask=mask, auto=pt and not jit)
         bs = len(dataset)  # batch_size
     else:
-        dataset = LoadMaskedImages(
+        dataset = LoadImages(
             source, img_size=imgsz, stride=stride, mask=mask, coef=coef, auto=pt and not jit)
         bs = 1  # batch_size
     vid_path, vid_writer = [None] * bs, [None] * bs
