@@ -24,7 +24,7 @@ import argparse
 from yolov5_face.utils.general import check_img_size, non_max_suppression_face, scale_coords, xyxy2xywh, increment_path
 # from yolov5_face.utils.plots import Annotator, colors
 from yolov5_face.utils.torch_utils import select_device
-from yolov5_face.utils.torch_utils import time_synchronized as time_sync
+from yolov5_face.utils.torch_utils import time_sync
 from yolov5_face.utils.datasets import LoadMaskedImages
 from yolov5_face.models.experimental import attempt_load
 
