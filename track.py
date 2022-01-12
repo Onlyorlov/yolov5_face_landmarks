@@ -86,7 +86,7 @@ def show_results(img, xywh, conf, landmarks, class_num):
 def detect(opt):
     #проверить аргументы
     out, source, yolo_model, save_vid, imgsz, project, name, coef, exist_ok = \
-        opt.output, opt.yolo_model, opt.save_vid, \
+        opt.output, opt.source, opt.yolo_model, opt.save_vid, \
         opt.imgsz, opt.project, opt.name, opt.coef, opt.exist_ok
 
     # Initialize
