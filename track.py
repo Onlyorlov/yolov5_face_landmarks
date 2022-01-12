@@ -7,7 +7,7 @@ os.environ["MKL_NUM_THREADS"] = "1"
 os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
 os.environ["NUMEXPR_NUM_THREADS"] = "1"
 
-sys.path.insert(0, './yolov5-face')
+sys.path.insert(0, './yolov5_face')
 
 import torch.backends.cudnn as cudnn
 import torch
