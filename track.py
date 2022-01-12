@@ -97,7 +97,6 @@ def detect(opt):
     save_dir.mkdir(parents=True, exist_ok=True)  # make dir
 
     # Load model
-    device = select_device(device)
     model = attempt_load(yolo_model, map_location=device)
     imgsz = check_img_size(imgsz)  # check image size
 
