@@ -137,7 +137,8 @@ def detect(opt):
         # Process detections
         for i, det in enumerate(pred):  # detections per image
 
-            p, im0, _ = path, im0s.copy(), getattr(dataset, 'frame', 0)
+            p, im0 = path, im0s.copy()
+            print(im0.shape)
             p = Path(p)  # to Path
             save_path = str(save_dir / p.name)  # im.jpg, vid.mp4, ...
             # s += '%gx%g ' % img.shape[2:]  # print string
@@ -159,7 +160,6 @@ def detect(opt):
                     conf = det[j, 4].cpu().numpy()
                     landmarks = (det[j, 5:15].view(1, 10) / gn_lks).view(-1).tolist()
                     class_num = det[j, 15].cpu().numpy()
-                    print(img.shape)
                     im0 = show_results(im0, xywh, conf, landmarks, class_num)
 
                 # Save results (image with detections)
