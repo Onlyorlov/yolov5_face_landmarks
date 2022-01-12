@@ -137,11 +137,11 @@ def detect(opt):
 
         # Process detections
         for i, det in enumerate(pred):  # detections per image
-
+            seen += 1
             im0 = copy.deepcopy(im0s)
             p = Path(path)  # to Path
             save_path = str(save_dir / p.name)  # im.jpg, vid.mp4, ...
-            # s += '%gx%g ' % img.shape[2:]  # print string
+            s += '%gx%g ' % img.shape[2:]  # print string
 
             gn = torch.tensor(im0.shape)[[1, 0, 1, 0]].to(device)  # normalization gain whwh
             gn_lks = torch.tensor(im0.shape)[[1, 0, 1, 0, 1, 0, 1, 0, 1, 0]].to(device)  # normalization gain landmarks
@@ -167,7 +167,7 @@ def detect(opt):
                     if vid_path != save_path:  # new video
                         vid_path = save_path
                         if isinstance(vid_writer, cv2.VideoWriter):
-                            # print(f'{s}Done. YOLO:({t3 - t2:.3f}s)')
+                            print(f'{s}Done. YOLO:({t3 - t2:.3f}s)')
                             vid_writer.release()  # release previous video writer
                         if vid_cap:  # video
                             fps = vid_cap.get(cv2.CAP_PROP_FPS)
@@ -183,7 +183,7 @@ def detect(opt):
 
             # New video -- сомнения
             if vid_path != save_path:  # if new video
-                # print(f'{s}Done. YOLO:({t3 - t2:.3f}s)')
+                print(f'{s}Done. YOLO:({t3 - t2:.3f}s)')
                 vid_path = save_path
 
 
