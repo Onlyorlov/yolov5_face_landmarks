@@ -159,6 +159,7 @@ def detect(opt):
                     conf = det[j, 4].cpu().numpy()
                     landmarks = (det[j, 5:15].view(1, 10) / gn_lks).view(-1).tolist()
                     class_num = det[j, 15].cpu().numpy()
+                    print(img.shape)
                     im0 = show_results(im0, xywh, conf, landmarks, class_num)
 
                 # Save results (image with detections)
