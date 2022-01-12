@@ -138,7 +138,7 @@ def detect(opt):
         for i, det in enumerate(pred):  # detections per image
 
             p, im0 = path, im0s.copy()
-            print(im0.shape)
+            print(im0s.shape)
             p = Path(p)  # to Path
             save_path = str(save_dir / p.name)  # im.jpg, vid.mp4, ...
             # s += '%gx%g ' % img.shape[2:]  # print string
