@@ -124,7 +124,7 @@ def detect(opt):
         dt[0] += t2 - t1
 
         # Inference
-        pred = model(img)
+        pred = model(img)[0]
         t3 = time_sync()
         dt[1] += t3 - t2
 
