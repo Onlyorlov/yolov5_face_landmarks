@@ -33,6 +33,7 @@ if str(ROOT) not in sys.path:
     sys.path.append(str(ROOT))  # add ROOT to PATH
 ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
 
+#добавить в utils?
 def scale_coords_landmarks(img1_shape, coords, img0_shape, ratio_pad=None):
     # Rescale coords (xyxy) from img1_shape to img0_shape
     if ratio_pad is None:  # calculate from img0_shape
@@ -58,6 +59,7 @@ def scale_coords_landmarks(img1_shape, coords, img0_shape, ratio_pad=None):
     coords[:, 9].clamp_(0, img0_shape[0])  # y5
     return coords
 
+# превратить в Аннотатор?
 def show_results(img, xywh, conf, landmarks, class_num):
     h,w,c = img.shape
     tl = 1 or round(0.002 * (h + w) / 2) + 1  # line/font thickness
@@ -191,6 +193,7 @@ def detect(opt):
                     if vid_path != save_path:  # new video
                         vid_path = save_path
                         if isinstance(vid_writer, cv2.VideoWriter):
+                            print(f'{s}Done. YOLO:({t3 - t2:.3f}s)')
                             vid_writer.release()  # release previous video writer
                         if vid_cap:  # video
                             fps = vid_cap.get(cv2.CAP_PROP_FPS)
@@ -204,7 +207,7 @@ def detect(opt):
                             save_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (w, h))
                     vid_writer.write(im0)
 
-            # New video
+            # New video -- сомнения
             if vid_path != save_path:  # if new video
                 print(f'{s}Done. YOLO:({t3 - t2:.3f}s)')
                 vid_path = save_path
