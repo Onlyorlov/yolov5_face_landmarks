@@ -22,7 +22,7 @@ import platform
 import argparse
 
 from yolov5_face.utils.general import check_img_size, non_max_suppression_face, scale_coords, check_imshow, xyxy2xywh, increment_path
-from yolov5_face.utils.plots import Annotator, colors
+# from yolov5_face.utils.plots import Annotator, colors
 from yolov5_face.utils.torch_utils import select_device, time_sync
 from yolov5_face.utils.datasets import LoadMaskedImages, LoadStreams
 from yolov5_face.models.experimental import attempt_load
@@ -86,9 +86,6 @@ def detect(opt):
     out, source, yolo_model, save_vid, imgsz, project, name, coef, exist_ok = \
         opt.output, opt.source, opt.yolo_model, opt.save_vid, \
         opt.imgsz, opt.project, opt.name, opt.coef, opt.exist_ok
-    
-    webcam = source == '0' or source.startswith(
-        'rtsp') or source.startswith('http') or source.endswith('.txt')
 
     # Initialize
     device = select_device(opt.device)
@@ -107,29 +104,15 @@ def detect(opt):
     vid_path, vid_writer = None, None
 
     # Dataloader
-    if webcam:
-        show_vid = check_imshow()
-        cudnn.benchmark = True  # set True to speed up constant image size inference
-        dataset = LoadStreams(source, img_size=imgsz)
-        bs = len(dataset)  # batch_size
-    else:
-        dataset = LoadMaskedImages(source, img_size=imgsz, coef=coef)
-        bs = 1  # batch_size
+    dataset = LoadMaskedImages(source, img_size=imgsz, coef=coef)
+    bs = 1  # batch_size
     vid_path, vid_writer = [None] * bs, [None] * bs
-    # Get names and colors
-    names = model.module.names if hasattr(model, 'module') else model.names
-
-    # extract what is in between the last '/' and last '.'
-    txt_file_name = source.split('/')[-1].split('.')[0]
 
     # if pt and device.type != 'cpu':
     #     model(torch.zeros(
     #         1, 3, *imgsz).to(device).type_as(next(model.model.parameters())))  # warmup
     dt, seen = [0.0, 0.0, 0.0], 0
 
-    # output for total counter
-    output = []
-    out = []
     for frame_idx, (path, img, im0s, vid_cap, s) in enumerate(dataset):
         t1 = time_sync()
         img = torch.from_numpy(img).to(device)
@@ -153,12 +136,8 @@ def detect(opt):
 
         # Process detections
         for i, det in enumerate(pred):  # detections per image
-            if webcam:  # batch_size >= 1
-                p, im0, _ = path[i], im0s[i].copy(), dataset.count
-                s += f'{i}: '
-            else:
-                p, im0, _ = path, im0s.copy(), getattr(dataset, 'frame', 0)
 
+            p, im0, _ = path, im0s.copy(), getattr(dataset, 'frame', 0)
             p = Path(p)  # to Path
             save_path = str(save_dir / p.name)  # im.jpg, vid.mp4, ...
             s += '%gx%g ' % img.shape[2:]  # print string
@@ -181,12 +160,6 @@ def detect(opt):
                     landmarks = (det[j, 5:15].view(1, 10) / gn_lks).view(-1).tolist()
                     class_num = det[j, 15].cpu().numpy()
                     im0 = show_results(im0, xywh, conf, landmarks, class_num)
-
-                # Stream results
-                if show_vid:
-                    cv2.imshow(p, im0)
-                    if cv2.waitKey(1) == ord('q'):  # q to quit
-                        raise StopIteration
 
                 # Save results (image with detections)
                 if save_vid:
