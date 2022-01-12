@@ -20,6 +20,7 @@ import pickle
 import json
 import platform
 import argparse
+import copy
 
 from yolov5_face.utils.general import check_img_size, non_max_suppression_face, scale_coords, xyxy2xywh, increment_path
 # from yolov5_face.utils.plots import Annotator, colors
@@ -137,7 +138,7 @@ def detect(opt):
         # Process detections
         for i, det in enumerate(pred):  # detections per image
 
-            im0 = im0s.copy()
+            im0 = copy.deepcopy(im0s)
             p = Path(path)  # to Path
             save_path = str(save_dir / p.name)  # im.jpg, vid.mp4, ...
             # s += '%gx%g ' % img.shape[2:]  # print string
