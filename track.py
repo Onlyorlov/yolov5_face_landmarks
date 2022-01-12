@@ -139,6 +139,7 @@ def detect(opt):
         for i, det in enumerate(pred):  # detections per image
 
             im0 = copy.deepcopy(im0s)
+            print(im0.shape)
             p = Path(path)  # to Path
             save_path = str(save_dir / p.name)  # im.jpg, vid.mp4, ...
             # s += '%gx%g ' % img.shape[2:]  # print string
