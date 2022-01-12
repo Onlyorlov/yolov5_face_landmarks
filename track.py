@@ -81,7 +81,7 @@ def show_results(img, xywh, conf, landmarks, class_num):
     tf = max(tl - 1, 1)  # font thickness
     label = str(conf)[:5]
     cv2.putText(img, label, (x1, y1 - 2), 0, tl / 3, [225, 255, 255], thickness=tf, lineType=cv2.LINE_AA)
-    return 
+    return img
 
 def detect(opt):
     #проверить аргументы
@@ -139,7 +139,6 @@ def detect(opt):
         for i, det in enumerate(pred):  # detections per image
 
             im0 = copy.deepcopy(im0s)
-            print(im0.shape)
             p = Path(path)  # to Path
             save_path = str(save_dir / p.name)  # im.jpg, vid.mp4, ...
             # s += '%gx%g ' % img.shape[2:]  # print string
