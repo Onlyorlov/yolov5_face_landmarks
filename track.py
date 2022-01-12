@@ -124,9 +124,7 @@ def detect(opt):
         dt[0] += t2 - t1
 
         # Inference
-        visualize = increment_path(
-            save_dir / Path(path).stem, mkdir=True) if opt.visualize else False
-        pred = model(img, visualize=visualize)
+        pred = model(img)
         t3 = time_sync()
         dt[1] += t3 - t2
 
