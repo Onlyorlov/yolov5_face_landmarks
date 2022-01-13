@@ -199,7 +199,7 @@ def detect(opt):
     print(f'Speed: %.1fms pre-process, %.1fms inference, %.1fms NMS \
         per image at shape {(1, 3, *imgsz)}' % t)
 
-    if save_vid:
+    if save_vid or save_photo:
         print('Results saved to %s' % save_dir)
 
 
