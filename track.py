@@ -185,8 +185,7 @@ def detect(opt):
                     if vid_path != save_path:  # new video
                         vid_path = save_path
                         print(f'{s}Done. YOLO:({t3 - t2:.3f}s)')
-                    print(save_path + s + '.jpg')
-                    cv2.imwrite(save_path + s + '.jpg', im0)
+                    cv2.imwrite(save_path + s.split()[2].replace('/', '-') + '.jpg', im0)
 
             # New video -- сомнения
             if vid_path != save_path:  # if new video
