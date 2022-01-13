@@ -85,8 +85,8 @@ def show_results(img, xywh, conf, landmarks, class_num):
 
 def detect(opt):
     #проверить аргументы
-    out, source, yolo_model, save_vid, imgsz, project, name, coef, exist_ok = \
-        opt.output, opt.source, opt.yolo_model, opt.save_vid, \
+    out, source, yolo_model, save_vid, save_photo, imgsz, project, name, coef, exist_ok = \
+        opt.output, opt.source, opt.yolo_model, opt.save_vid, opt.save_photo\
         opt.imgsz, opt.project, opt.name, opt.coef, opt.exist_ok
 
     # Initialize
@@ -180,10 +180,16 @@ def detect(opt):
                         vid_writer = cv2.VideoWriter(
                             save_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (w, h))
                     vid_writer.write(im0)
-            print(f'{s}Done. YOLO:({t3 - t2:.3f}s)')
+                
+                if save_photo:
+                    if vid_path != save_path:  # new video
+                        vid_path = save_path
+                        print(f'{s}Done. YOLO:({t3 - t2:.3f}s)')
+                    cv2.imwrite(save_path + s + '.jpg', im0)
+
             # New video -- сомнения
             if vid_path != save_path:  # if new video
-                # print(f'{s}Done. YOLO:({t3 - t2:.3f}s)')
+                print(f'{s}Done. YOLO:({t3 - t2:.3f}s)')
                 vid_path = save_path
 
 
@@ -215,7 +221,9 @@ if __name__ == '__main__':
     parser.add_argument('--device', default='',
                         help='cuda device, i.e. 0 or 0,1,2,3 or cpu')
     parser.add_argument('--save-vid', action='store_true',
-                        help='save video tracking results')
+                        help='save video results')
+    parser.add_argument('--save-photo', action='store_true',
+                        help='save photo results')
     parser.add_argument('--max-det', type=int, default=1000,
                         help='maximum detection per image')
     parser.add_argument('--project', default=ROOT / 'runs',
