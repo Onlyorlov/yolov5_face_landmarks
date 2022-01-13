@@ -64,7 +64,8 @@ def scale_coords_landmarks(img1_shape, coords, img0_shape, ratio_pad=None):
 # превратить в Аннотатор?
 def show_results(img, xywh, conf, landmarks, class_num):
     h,w,c = img.shape
-    tl = 1 or round(0.002 * (h + w) / 2) + 1  # line/font thickness
+    # tl = 1 or round(0.002 * (h + w) / 2) + 1  # line/font thickness
+    tl = 1
     x1 = int(xywh[0] * w - 0.5 * xywh[2] * w)
     y1 = int(xywh[1] * h - 0.5 * xywh[3] * h)
     x2 = int(xywh[0] * w + 0.5 * xywh[2] * w)
