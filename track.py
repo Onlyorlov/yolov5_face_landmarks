@@ -190,6 +190,7 @@ def detect(opt):
             # New video -- сомнения
             if vid_path != save_path:  # if new video
                 print(f'{s}Done. YOLO:({t3 - t2:.3f}s)')
+                print('Hello')
                 vid_path = save_path
 
 
