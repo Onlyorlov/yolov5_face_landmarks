@@ -187,12 +187,6 @@ def detect(opt):
                         print(f'{s}Done. YOLO:({t3 - t2:.3f}s)')
                     cv2.imwrite(save_path + s.split()[2].replace('/', '-') + '.jpg', im0)
 
-            # New video -- сомнения
-            if vid_path != save_path:  # if new video
-                print(f'{s}Done. YOLO:({t3 - t2:.3f}s)')
-                print('Hello')
-                vid_path = save_path
-
 
     # Print results
     t = tuple(x / seen * 1E3 for x in dt)  # speeds per image
