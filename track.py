@@ -77,6 +77,7 @@ def show_results(img, xywh, conf, landmarks, class_num):
         point_x = int(landmarks[2 * i] * w)
         point_y = int(landmarks[2 * i + 1] * h)
         cv2.circle(img, (point_x, point_y), tl, clors[i], -1)
+        # cv2.circle(img, (point_x, point_y), tl+1, clors[i], -1) так было...
 
     tf = max(tl - 1, 1)  # font thickness
     label = str(conf)[:5]
