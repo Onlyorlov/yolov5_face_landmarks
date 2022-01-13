@@ -186,9 +186,6 @@ def detect(opt):
                         print(f'{s}Done. YOLO:({t3 - t2:.3f}s)')
                 
                 if save_photo:
-                    # if vid_path != save_path:  # new video
-                    #     vid_path = save_path
-                    #     print(f'{s}Done. YOLO:({t3 - t2:.3f}s)')
                     cv2.imwrite(save_path + s.split()[2].replace('/', '-') + '.jpg', im0)
 
 
