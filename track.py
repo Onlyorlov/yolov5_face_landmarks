@@ -166,8 +166,8 @@ def detect(opt):
                 if save_vid:
                     if vid_path != save_path:  # new video
                         vid_path = save_path
+                        print(f'{s}Done. YOLO:({t3 - t2:.3f}s)')
                         if isinstance(vid_writer, cv2.VideoWriter):
-                            print(f'{s}Done. YOLO:({t3 - t2:.3f}s)')
                             vid_writer.release()  # release previous video writer
                         if vid_cap:  # video
                             fps = vid_cap.get(cv2.CAP_PROP_FPS)
@@ -180,12 +180,17 @@ def detect(opt):
                         vid_writer = cv2.VideoWriter(
                             save_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (w, h))
                     vid_writer.write(im0)
-                
-                if save_photo:
+                else: #Just for printing results on each new video
                     if vid_path != save_path:  # new video
                         vid_path = save_path
                         print(f'{s}Done. YOLO:({t3 - t2:.3f}s)')
+                
+                if save_photo:
+                    # if vid_path != save_path:  # new video
+                    #     vid_path = save_path
+                    #     print(f'{s}Done. YOLO:({t3 - t2:.3f}s)')
                     cv2.imwrite(save_path + s.split()[2].replace('/', '-') + '.jpg', im0)
+
 
 
     # Print results
