@@ -85,8 +85,8 @@ def show_results(img, xywh, conf, landmarks, class_num):
 
 def detect(opt):
     #проверить аргументы
-    out, source, yolo_model, save_vid, imgsz, project, name, coef, exist_ok = \
-        opt.output, opt.source, opt.yolo_model, opt.save_vid, \
+    out, source, yolo_model, save_vid, save_photo, imgsz, project, name, coef, exist_ok = \
+        opt.output, opt.source, opt.yolo_model, opt.save_vid, opt.save_photo,\
         opt.imgsz, opt.project, opt.name, opt.coef, opt.exist_ok
 
     # Initialize
@@ -166,8 +166,8 @@ def detect(opt):
                 if save_vid:
                     if vid_path != save_path:  # new video
                         vid_path = save_path
+                        print(f'{s}Done. YOLO:({t3 - t2:.3f}s)')
                         if isinstance(vid_writer, cv2.VideoWriter):
-                            print(f'{s}Done. YOLO:({t3 - t2:.3f}s)')
                             vid_writer.release()  # release previous video writer
                         if vid_cap:  # video
                             fps = vid_cap.get(cv2.CAP_PROP_FPS)
@@ -180,11 +180,14 @@ def detect(opt):
                         vid_writer = cv2.VideoWriter(
                             save_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (w, h))
                     vid_writer.write(im0)
-            print(f'{s}Done. YOLO:({t3 - t2:.3f}s)')
-            # New video -- сомнения
-            if vid_path != save_path:  # if new video
-                # print(f'{s}Done. YOLO:({t3 - t2:.3f}s)')
-                vid_path = save_path
+                else: #Just for printing results on each new video
+                    if vid_path != save_path:  # new video
+                        vid_path = save_path
+                        print(f'{s}Done. YOLO:({t3 - t2:.3f}s)')
+                
+                if save_photo:
+                    cv2.imwrite(save_path + s.split()[2].replace('/', '-') + '.jpg', im0)
+
 
 
     # Print results
@@ -192,7 +195,7 @@ def detect(opt):
     print(f'Speed: %.1fms pre-process, %.1fms inference, %.1fms NMS \
         per image at shape {(1, 3, *imgsz)}' % t)
 
-    if save_vid:
+    if save_vid or save_photo:
         print('Results saved to %s' % save_dir)
 
 
@@ -215,7 +218,9 @@ if __name__ == '__main__':
     parser.add_argument('--device', default='',
                         help='cuda device, i.e. 0 or 0,1,2,3 or cpu')
     parser.add_argument('--save-vid', action='store_true',
-                        help='save video tracking results')
+                        help='save video results')
+    parser.add_argument('--save-photo', action='store_true',
+                        help='save photo results')
     parser.add_argument('--max-det', type=int, default=1000,
                         help='maximum detection per image')
     parser.add_argument('--project', default=ROOT / 'runs',
